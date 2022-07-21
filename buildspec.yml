@@ -2,31 +2,23 @@ version: 0.2
 
 phases:
   install:
-    on-failure: ABORT
     runtime-versions:
-      dotnet: 6.0
+      java: corretto11
   pre_build:
-    on-failure: ABORT
     commands:
-    - echo Build start on 'date'
-    - dotnet restore
-    - echo Build ends on 'date'
+    - mvn clean
+    - mvn validate
+    - echo Pre-build completed on 'data'
   build:
-    on-failure: ABORT
     commands:
-    - echo Build start on 'date'
-    - dotnet build
-    - dotnet test
-    - echo Build ends on 'date'
+    - echo Build completed on date
+    - mvn compile
+    - mvn test
   post_build:
-    on-failure: ABORT
     commands:
-    - echo Build start on 'date'
-    - dotnet publish
-    - mv bin/Debug/net6.0/pipelines-dotnet-core.dll ROOT.dll
-    - echo Build ends on 'date'
-
+    - echo Build completed on date
+    - mvn package
+    - cp target/*.war Adwaa.war
 artifacts:
   files:
-    - ROOT.dll
-  name: dotnet-artifat
+  - Adwaa.war
